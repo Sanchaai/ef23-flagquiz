@@ -2,36 +2,59 @@ const startButton = document.getElementById("start-btn");
 const nextButton = document.getElementById("next-btn");
 
 const questionContainerElement = document.getElementById("question-container");
-const questionElement = document.getElementById("question");
 const answerButtonElement = document.getElementById("answer-buttons");
 
-let shuffledQuestions, currectQuestionIndex;
+const flagContainer = document.getElementById("flag");
+const questioncount = 10;
+
+let shuffledQuestions, currentQuestionIndex, questions;
 let quizScore = 0;
 
 startButton.addEventListener("click", startGame);
 
 nextButton.addEventListener("click", () => {
-  currectQuestionIndex++;
+  currentQuestionIndex++;
   setnextQuestion();
 });
 
 function startGame() {
   startButton.classList.add("hide");
-  shuffledQuestions = questions.sort(() => Math.random() - 0.5);
-  currectQuestionIndex = 0;
+
+  // Generate questions
+  questions = [];
+  for (let i = 0; i < questioncount; i++) {
+      // TODO: Select 4 urls from "flags"
+      urls = ["Europe/Cyprus.png",
+      "Europe/Czech Republic.png",
+      "Europe/Denmark.png",
+      "Europe/Estonia.png"];
+
+      questions.push({
+        img: urls[0],
+        answers: [
+          {text: urls[0].replace(".png", "").split("/")[1], correct: true},
+          {text: urls[1].replace(".png", "").split("/")[1], correct: false},
+          {text: urls[2].replace(".png", "").split("/")[1], correct: false},
+          {text: urls[3].replace(".png", "").split("/")[1], correct: false}
+          
+        ]
+      })
+  }
+
+  currentQuestionIndex = 0;
+  quizScore = 0;
   questionContainerElement.classList.remove("hide");
   setnextQuestion();
-  quizScore = 0;
 }
 
 function setnextQuestion() {
   resetState();
-  showQuestion(shuffledQuestions[currectQuestionIndex]);
+  showQuestion(questions[currentQuestionIndex]);
 }
 
 function showQuestion(question) {
-  questionElement.innerText = question.question;
-  question.answer.forEach((answer) => {
+  flagContainer.src = baseflagpath + question.img;
+  question.answers.forEach((answer) => {
     const button = document.createElement("button");
     button.innerText = answer.text;
     button.classList.add("btn");
@@ -43,6 +66,7 @@ function showQuestion(question) {
 
 function resetState() {
   clearStatusClass(document.body);
+  flagContainer.src = "";
   nextButton.classList.add("hide");
   while (answerButtonElement.firstChild) {
     answerButtonElement.removeChild(answerButtonElement.firstChild);
@@ -55,7 +79,7 @@ function selectAnswer(e) {
   Array.from(answerButtonElement.children).forEach((button) => {
     setStatusClass(button);
   });
-  if (shuffledQuestions.length > currectQuestionIndex + 1) {
+  if (questions.length > currentQuestionIndex + 1) {
     nextButton.classList.remove("hide");
   } else {
     startButton.innerText = "Restart";
@@ -80,48 +104,9 @@ function clearStatusClass(element) {
   element.classList.remove("correct");
   element.classList.remove("wrong");
 }
-const questions = [
-  {
-    question: "Was gibt 1+1?",
-    answer: [
-      { text: "1", correct: false },
-      { text: "2", correct: true },
-      { text: "3", correct: false },
-      { text: "4", correct: false },
-    ],
-  },
-  {
-    question: "Was gibt 2-1?",
-    answer: [
-      { text: "1", correct: true },
-      { text: "2", correct: false },
-      { text: "3", correct: false },
-      { text: "4", correct: false },
-    ],
-  },
-  {
-    question: "Was gibt 32/4?",
-    answer: [
-      { text: "2", correct: false },
-      { text: "16", correct: false },
-      { text: "8", correct: true },
-      { text: "4", correct: false },
-    ],
-  },
-  {
-    question: "Was gibt 8*8?",
-    answer: [
-      { text: "16", correct: false },
-      { text: "32", correct: false },
-      { text: "64", correct: true },
-      { text: "4", correct: false },
-    ],
-  },
-];
 
-baseflagpath = "images/flags/"
-
-countries = [
+const baseflagpath = "images/flags/"
+const flags = [
   "Europe/Albania.png",
   "Europe/Andorra.png",
   "Europe/Armenia.png",
