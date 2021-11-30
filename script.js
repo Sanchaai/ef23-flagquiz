@@ -23,11 +23,16 @@ function startGame() {
   // Generate questions
   questions = [];
   for (let i = 0; i < questioncount; i++) {
-      // TODO: Select 4 urls from "flags"
-      urls = ["Europe/Cyprus.png",
-      "Europe/Czech Republic.png",
-      "Europe/Denmark.png",
-      "Europe/Estonia.png"];
+      // Select 4 random urls from "flags"
+      
+      urls = []
+
+      while (urls.length < 4) {
+        randurl = flags[Math.floor(Math.random() * flags.length)];
+        if (!urls.includes(randurl)) {
+          urls.push(randurl);
+        }
+      }
 
       questions.push({
         img: urls[0],
@@ -106,7 +111,7 @@ function clearStatusClass(element) {
 }
 
 const baseflagpath = "images/flags/"
-const flags = [
+flags = [
   "Europe/Albania.png",
   "Europe/Andorra.png",
   "Europe/Armenia.png",
