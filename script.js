@@ -7,7 +7,7 @@ const answerButtonElement = document.getElementById("answer-buttons");
 const flagContainer = document.getElementById("flag");
 const questioncount = 10;
 
-let shuffledQuestions, currentQuestionIndex, questions;
+let shuffledQuestions, currentQuestionIndex, questions, questionanswered;
 let quizScore = 0;
 
 startButton.addEventListener("click", startGame);
@@ -58,6 +58,7 @@ function setnextQuestion() {
 }
 
 function showQuestion(question) {
+  questionanswered = false;
   flagContainer.src = baseflagpath + question.img;
   question.answers.forEach((answer) => {
     const button = document.createElement("button");
@@ -79,21 +80,24 @@ function resetState() {
 }
 
 function selectAnswer(e) {
-  const selectedButton = e.target;
+  if (!questionanswered) {
+    questionanswered = true;
+    const selectedButton = e.target;
 
-  Array.from(answerButtonElement.children).forEach((button) => {
-    setStatusClass(button);
-  });
-  if (questions.length > currentQuestionIndex + 1) {
-    nextButton.classList.remove("hide");
-  } else {
-    startButton.innerText = "Restart";
-    startButton.classList.remove("hide");
+    Array.from(answerButtonElement.children).forEach((button) => {
+      setStatusClass(button);
+    });
+    if (questions.length > currentQuestionIndex + 1) {
+      nextButton.classList.remove("hide");
+    } else {
+      startButton.innerText = "Restart";
+      startButton.classList.remove("hide");
+    }
+    if (selectedButton.dataset.correct == "true") {
+      quizScore++;
+    }
+    document.getElementById("right-answers").innerText = `Score: ${quizScore}`;
   }
-  if (selectedButton.dataset.correct == "true") {
-    quizScore++;
-  }
-  document.getElementById("right-answers").innerText = `Score: ${quizScore}`;
 }
 
 function setStatusClass(element) {
