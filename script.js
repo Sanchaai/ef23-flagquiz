@@ -3,6 +3,7 @@ const nextButton = document.getElementById("next-btn");
 
 const questionContainerElement = document.getElementById("question-container");
 const answerButtonElement = document.getElementById("answer-buttons");
+const scoreElement = document.getElementById("score");
 
 const flagelement = document.getElementById("flag");
 const questioncount = 10;
@@ -18,6 +19,7 @@ nextButton.addEventListener("click", () => {
 });
 
 function startGame() {
+  scoreElement.innerHTML = "";
   startButton.classList.add("hide");
 
   // Generate questions
@@ -97,7 +99,7 @@ function selectAnswer(e) {
     if (selectedButton.dataset.correct == "true") {
       quizScore++;
     }
-    document.getElementById("right-answers").innerText = `Score: ${quizScore}`;
+    scoreElement.innerText = `Score: ${quizScore}`;
   }
 }
 
