@@ -5,6 +5,16 @@
 
 }
 
+#flagcontainer {
+    align-content: center;
+    margin: auto;
+    width: 50%;
+}
+
+img#flag {
+    width: 100%;
+}
+
 body{
     --hue: var{--hue-neutral};
     padding: 0;

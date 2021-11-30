@@ -4,7 +4,7 @@ const nextButton = document.getElementById("next-btn");
 const questionContainerElement = document.getElementById("question-container");
 const answerButtonElement = document.getElementById("answer-buttons");
 
-const flagContainer = document.getElementById("flag");
+const flagelement = document.getElementById("flag");
 const questioncount = 10;
 
 let shuffledQuestions, currentQuestionIndex, questions, questionanswered;
@@ -59,7 +59,7 @@ function setnextQuestion() {
 
 function showQuestion(question) {
   questionanswered = false;
-  flagContainer.src = baseflagpath + question.img;
+  flagelement.src = baseflagpath + question.img;
   question.answers.forEach((answer) => {
     const button = document.createElement("button");
     button.innerText = answer.text;
@@ -72,7 +72,7 @@ function showQuestion(question) {
 
 function resetState() {
   clearStatusClass(document.body);
-  flagContainer.src = "";
+  flagelement.src = "";
   nextButton.classList.add("hide");
   while (answerButtonElement.firstChild) {
     answerButtonElement.removeChild(answerButtonElement.firstChild);
